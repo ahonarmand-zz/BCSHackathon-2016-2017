@@ -64,16 +64,16 @@
       <button id="clear-all" class="button-demo">Clear all</button>
     </div>
     <span id="ws-unsupported" class="hidden">API not supported</span>
-
+   <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
     <script>
+
       // Test browser support
       window.SpeechRecognition = window.SpeechRecognition       ||
                                  window.webkitSpeechRecognition ||
                                  null;
-	var toStart;
-	var toEnd;
-	var time;
+	var step = 0;
 	var answers = new Array;
+	var questions = ['how do you want to get there', 'when do you want to leave?', 'where are you leaving from?']
       if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
         document.getElementById('button-play-ws').setAttribute('disabled', 'disabled');
@@ -88,16 +88,21 @@
 
         // Start recognising
         recognizer.onresult = function(event) {
+        
           transcription.textContent = '';
+          
           for (var i = event.resultIndex; i < event.results.length; i++) {
             if (event.results[i].isFinal) {
+             answers.push(event.results[i][0].transcript);
               transcription.textContent = event.results[i][0].transcript + ' (Confidence: ' + event.results[i][0].confidence + ')';
-              answers.push(transcription.textContent);
+             
             } else {
               transcription.textContent += event.results[i][0].transcript;
             }
           }
           console.log(answers.length);
+          console.log(answers[0]);
+          responsiveVoice.speak(questions[step++]);
         };
         // Listen for errors
         recognizer.onerror = function(event) {
@@ -110,6 +115,7 @@
 
           try {
             recognizer.start();
+            responsiveVoice.speak("Where do you want to go?");
             log.innerHTML = 'Recognition started' + '<br />' + log.innerHTML;
           } catch(ex) {
             log.innerHTML = 'Recognition error: ' + ex.message + '<br />' + log.innerHTML;

@@ -52,6 +52,8 @@
       img{
     display: block;
     margin: 0 auto;
+    width: 40%;
+    height: 40%;
 }
 	.buttons-wrapper {
 		display:none;
@@ -82,7 +84,11 @@
    
     <script>//main javascript
       // Test browser support
-
+	document.body.onkeyup = function(e){
+	    if(e.keyCode == 32){
+	        location.reload();
+	    }
+	}
       function wait(ms)
 	{
 	var d = new Date();

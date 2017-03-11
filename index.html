@@ -66,6 +66,7 @@
     <span id="ws-unsupported" class="hidden">API not supported</span>
     
     
+    <script type="text/javascript" src="date.js"></script>
    <script src="http://code.responsivevoice.org/responsivevoice.js">//gets the responsive voice api
    </script>
    
@@ -92,7 +93,7 @@
 	//answers that the user gives
 	var answers = new Array;
 	//questions that we want to ask the user
-	var questions = ['how do you want to get there', 'when do you want to leave?', 'where are you leaving from?']
+	var questions = ['Specify the method of transport, walking, transit, biking, or driving', 'when do you want to leave, say now, or a time', 'where are you leaving from, say leave from here or give a location?']
       if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
         document.getElementById('button-play-ws').setAttribute('disabled', 'disabled');

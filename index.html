@@ -62,8 +62,13 @@
   </head>
   <body>
 
+    <h1>Web Speech API</h1>
+    <h2>Transcription</h2>
+
+
     <img src = "logo.png">
     <h2>Input</h2>
+
     <textarea id="transcription" readonly="readonly"></textarea>
 
 
@@ -89,6 +94,17 @@
 	        location.reload();
 	    }
 	}
+
+
+      var lat = 0
+      var lon = 0
+
+      function showPosition(position) {
+        lat = position.coords.latitude
+        lon = position.coords.longitude
+    }
+      navigator.geolocation.getCurrentPosition(showPosition)
+
       function wait(ms)
 	{
 	var d = new Date();
@@ -176,6 +192,11 @@
 
       function getDirections(origin, destination, mode){
         mode= mode.toUpperCase().trim()
+        origin= origin.trim()
+        destination= destination.trim()
+        if (origin.toLowerCase()== "here" || origin.toLowerCase() == "current location"){
+          origin = {lat: lat , lng:lon}
+        }
         console.log("origin: " + origin)
         console.log("dest:" + destination)
         console.log("mode: " + mode)

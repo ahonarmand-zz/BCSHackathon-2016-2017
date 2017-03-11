@@ -53,6 +53,9 @@
     display: block;
     margin: 0 auto;
 }
+	.buttons-wrapper {
+		display:none;
+	}
     </style>
   </head>
   <body>
@@ -141,7 +144,7 @@
           log.innerHTML = 'Recognition error: ' + event.message + '<br />' + log.innerHTML;
         };
 
-        document.getElementById('button-play-ws').addEventListener('click', function() {
+        setTimeout( function() {
           try {
             
             recognizer.start();
@@ -151,7 +154,7 @@
           } catch(ex) {
             log.innerHTML = 'Recognition error: ' + ex.message + '<br />' + log.innerHTML;
           }
-        });
+        }, 2000);
 
         document.getElementById('button-stop-ws').addEventListener('click', function() {
           recognizer.stop();

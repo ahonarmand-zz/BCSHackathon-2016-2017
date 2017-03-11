@@ -83,6 +83,9 @@
     <script type="text/javascript" src="date.js"></script>
    <script src="http://code.responsivevoice.org/responsivevoice.js">//gets the responsive voice api
    </script>
+
+   <p>Directions: </p>
+   <p id = "directions"></p>
    
    
     <script>//main javascript
@@ -184,6 +187,9 @@
 
       function getDirections(origin, destination, mode){
         mode= mode.toUpperCase().trim()
+        if (mode == "BIKING"){
+          mode='BICYCLING'
+        }
         origin= origin.trim()
         destination= destination.trim()
         if (origin.toLowerCase()== "here" || origin.toLowerCase() == "current location"){
@@ -211,6 +217,8 @@
             for (i=0; i<steps.length ; i++){
               responsiveVoice.speak(strip(steps[i]['instructions']));
               console.log(strip(steps[i]['instructions']))
+              d = document.getElementById('directions')
+              d.innerHTML = d.innerHTML + '<br>' + strip(steps[i]['instructions'])
             }
           }
         });

@@ -64,15 +64,34 @@
       <button id="clear-all" class="button-demo">Clear all</button>
     </div>
     <span id="ws-unsupported" class="hidden">API not supported</span>
-   <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
-    <script>
-
+    
+    
+   <script src="http://code.responsivevoice.org/responsivevoice.js">//gets the responsive voice api
+   </script>
+   
+   
+    <script>//main javascript
       // Test browser support
+
+      function wait(ms)
+	{
+	var d = new Date();
+	var d2 = null;
+	do { d2 = new Date(); }
+	while(d2-d < ms);
+	}
+     window.onload = function () {
+		responsiveVoice.speak('Where do you want to go?');
+		wait(500);
+	}
       window.SpeechRecognition = window.SpeechRecognition       ||
                                  window.webkitSpeechRecognition ||
                                  null;
+          //step that the user is on ('where do you want to go? 'when do you want to leave', etc)
 	var step = 0;
+	//answers that the user gives
 	var answers = new Array;
+	//questions that we want to ask the user
 	var questions = ['how do you want to get there', 'when do you want to leave?', 'where are you leaving from?']
       if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
@@ -102,7 +121,10 @@
           }
           console.log(answers.length);
           console.log(answers[0]);
-          responsiveVoice.speak(questions[step++]);
+          if (step+1 <= questions.length){
+          	responsiveVoice.speak(questions[step++]);
+          	wait(1000)
+          }
         };
         // Listen for errors
         recognizer.onerror = function(event) {
@@ -114,8 +136,10 @@
           recognizer.interimResults = document.querySelector('input[name="recognition-type"][value="interim"]').checked;
 
           try {
+            
             recognizer.start();
-            responsiveVoice.speak("Where do you want to go?");
+            
+            
             log.innerHTML = 'Recognition started' + '<br />' + log.innerHTML;
           } catch(ex) {
             log.innerHTML = 'Recognition error: ' + ex.message + '<br />' + log.innerHTML;

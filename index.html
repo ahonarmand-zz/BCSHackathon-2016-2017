@@ -53,7 +53,6 @@
     </style>
   </head>
   <body>
-    <h1 id = "test"></h1>
     <h1>Web Speech API</h1>
     <h2>Transcription</h2>
     <textarea id="transcription" readonly="readonly"></textarea>
@@ -85,9 +84,6 @@
       var lon = 0
 
       function showPosition(position) {
-        x = document.getElementById("test")
-        x.innerHTML = "Latitude: " + position.coords.latitude + 
-        "<br>Longitude: " + position.coords.longitude;
         lat = position.coords.latitude
         lon = position.coords.longitude
     }

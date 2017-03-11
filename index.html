@@ -70,7 +70,10 @@
       window.SpeechRecognition = window.SpeechRecognition       ||
                                  window.webkitSpeechRecognition ||
                                  null;
-
+	var toStart;
+	var toEnd;
+	var time;
+	var answers = new Array;
       if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
         document.getElementById('button-play-ws').setAttribute('disabled', 'disabled');
@@ -86,16 +89,16 @@
         // Start recognising
         recognizer.onresult = function(event) {
           transcription.textContent = '';
-
           for (var i = event.resultIndex; i < event.results.length; i++) {
             if (event.results[i].isFinal) {
               transcription.textContent = event.results[i][0].transcript + ' (Confidence: ' + event.results[i][0].confidence + ')';
+              answers.push(transcription.textContent);
             } else {
               transcription.textContent += event.results[i][0].transcript;
             }
           }
+          console.log(answers.length);
         };
-
         // Listen for errors
         recognizer.onerror = function(event) {
           log.innerHTML = 'Recognition error: ' + event.message + '<br />' + log.innerHTML;

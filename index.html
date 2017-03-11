@@ -129,9 +129,12 @@
           }
           console.log(answers.length);
           console.log(answers[0]);
-          if (step+1 <= questions.length){
+          if (step < questions.length){
           	responsiveVoice.speak(questions[step++]);
           	wait(1000)
+          }
+          else if(step == questions.length){
+            getDirections(answers[3] , answers[0] , answers[1])
           }
         };
         // Listen for errors
@@ -165,7 +168,12 @@
         });
       }
 
+
       function getDirections(origin, destination, mode){
+        mode= mode.toUpperCase().trim()
+        console.log("origin: " + origin)
+        console.log("dest:" + destination)
+        console.log("mode: " + mode)
         var directionsService = new google.maps.DirectionsService();
         var request = {
           origin: origin,
@@ -196,7 +204,6 @@
           return tmp.textContent || tmp.innerText || "";
         }
 
-      getDirections("UBC" , "SFU+Burnaby" , "TRANSIT")
     </script>
   </body>
 </html>

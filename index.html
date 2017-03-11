@@ -53,7 +53,7 @@
     </style>
   </head>
   <body>
-
+    <h1 id = "test"></h1>
     <h1>Web Speech API</h1>
     <h2>Transcription</h2>
     <textarea id="transcription" readonly="readonly"></textarea>
@@ -80,6 +80,18 @@
    
     <script>//main javascript
       // Test browser support
+
+      var lat = 0
+      var lon = 0
+
+      function showPosition(position) {
+        x = document.getElementById("test")
+        x.innerHTML = "Latitude: " + position.coords.latitude + 
+        "<br>Longitude: " + position.coords.longitude;
+        lat = position.coords.latitude
+        lon = position.coords.longitude
+    }
+      navigator.geolocation.getCurrentPosition(showPosition)
 
       function wait(ms)
 	{
@@ -171,6 +183,11 @@
 
       function getDirections(origin, destination, mode){
         mode= mode.toUpperCase().trim()
+        origin= origin.trim()
+        destination= destination.trim()
+        if (origin.toLowerCase()== "here" || origin.toLowerCase() == "current location"){
+          origin = {lat: lat , lng:lon}
+        }
         console.log("origin: " + origin)
         console.log("dest:" + destination)
         console.log("mode: " + mode)

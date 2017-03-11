@@ -62,8 +62,7 @@
   </head>
   <body>
 
-    <h1>Web Speech API</h1>
-    <h2>Transcription</h2>
+
 
 
     <img src = "logo.png">
@@ -96,6 +95,9 @@
 	    if(e.keyCode == 32){
 	        location.reload();
 	    }
+      if(e.keyCode == 39){
+            getDirections(answers[2] , answers[0] , answers[1]);
+        }
 	}
 
 
@@ -127,7 +129,7 @@
 	//answers that the user gives
 	var answers = new Array;
 	//questions that we want to ask the user
-	var questions = ['Specify the method of transport, walking, transit, biking, or driving', 'when do you want to leave, say now, or a time', 'where are you leaving from, say leave from here or give a location?']
+	var questions = ['Specify the method of transport, walking, transit, biking, or driving',  'where are you leaving from, say leave from here or give a location?']
       if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
         document.getElementById('button-play-ws').setAttribute('disabled', 'disabled');
@@ -161,7 +163,7 @@
           	wait(1000)
           }
           else if(step == questions.length){
-            getDirections(answers[3] , answers[0] , answers[1])
+            getDirections(answers[2] , answers[0] , answers[1])
           }
         };
         // Listen for errors
@@ -194,6 +196,8 @@
 
 
       function getDirections(origin, destination, mode){
+        d = document.getElementById('directions')
+        d.innerHTML = ""
         mode= mode.toUpperCase().trim()
         if (mode == "BIKING"){
           mode='BICYCLING'

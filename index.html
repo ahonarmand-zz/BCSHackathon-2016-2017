@@ -2,6 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
+
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Web Speech API Demo</title>
     <style>
@@ -47,6 +53,7 @@
     </style>
   </head>
   <body>
+
     <h1>Web Speech API</h1>
     <h2>Transcription</h2>
     <textarea id="transcription" readonly="readonly"></textarea>
@@ -126,6 +133,39 @@
           log.textContent = '';
         });
       }
+
+      function getDirections(origin, destination, mode){
+        var directionsService = new google.maps.DirectionsService();
+        var request = {
+          origin: origin,
+          destination: destination,
+          travelMode: mode,
+          transitOptions: {
+            routingPreference: "FEWER_TRANSFERS"
+          }
+          
+        };
+        directionsService.route(request, function(response, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            console.log(response)
+            steps = response['routes'][0]['legs'][0]['steps']
+            console.log(steps)
+            console.log(steps.length)
+            for (i=0; i<steps.length ; i++){
+              responsiveVoice.speak(strip(steps[i]['instructions']));
+              console.log(strip(steps[i]['instructions']))
+            }
+          }
+        });
+      }
+
+      function strip(html){
+          var tmp = document.createElement("DIV");
+          tmp.innerHTML = html;
+          return tmp.textContent || tmp.innerText || "";
+        }
+
+      getDirections("UBC" , "SFU+Burnaby" , "TRANSIT")
     </script>
   </body>
 </html>

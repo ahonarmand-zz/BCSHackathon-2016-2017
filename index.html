@@ -64,16 +64,36 @@
       <button id="clear-all" class="button-demo">Clear all</button>
     </div>
     <span id="ws-unsupported" class="hidden">API not supported</span>
-
-    <script>
+    
+    
+    <script type="text/javascript" src="date.js"></script>
+   <script src="http://code.responsivevoice.org/responsivevoice.js">//gets the responsive voice api
+   </script>
+   
+   
+    <script>//main javascript
       // Test browser support
+
+      function wait(ms)
+	{
+	var d = new Date();
+	var d2 = null;
+	do { d2 = new Date(); }
+	while(d2-d < ms);
+	}
+     window.onload = function () {
+		responsiveVoice.speak('Where do you want to go?');
+		wait(500);
+	}
       window.SpeechRecognition = window.SpeechRecognition       ||
                                  window.webkitSpeechRecognition ||
                                  null;
-	var toStart;
-	var toEnd;
-	var time;
+          //step that the user is on ('where do you want to go? 'when do you want to leave', etc)
+	var step = 0;
+	//answers that the user gives
 	var answers = new Array;
+	//questions that we want to ask the user
+	var questions = ['Specify the method of transport, walking, transit, biking, or driving', 'when do you want to leave, say now, or a time', 'where are you leaving from, say leave from here or give a location?']
       if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
         document.getElementById('button-play-ws').setAttribute('disabled', 'disabled');
@@ -88,16 +108,24 @@
 
         // Start recognising
         recognizer.onresult = function(event) {
+        
           transcription.textContent = '';
+          
           for (var i = event.resultIndex; i < event.results.length; i++) {
             if (event.results[i].isFinal) {
+             answers.push(event.results[i][0].transcript);
               transcription.textContent = event.results[i][0].transcript + ' (Confidence: ' + event.results[i][0].confidence + ')';
-              answers.push(transcription.textContent);
+             
             } else {
               transcription.textContent += event.results[i][0].transcript;
             }
           }
           console.log(answers.length);
+          console.log(answers[0]);
+          if (step+1 <= questions.length){
+          	responsiveVoice.speak(questions[step++]);
+          	wait(1000)
+          }
         };
         // Listen for errors
         recognizer.onerror = function(event) {
@@ -109,7 +137,10 @@
           recognizer.interimResults = document.querySelector('input[name="recognition-type"][value="interim"]').checked;
 
           try {
+            
             recognizer.start();
+            
+            
             log.innerHTML = 'Recognition started' + '<br />' + log.innerHTML;
           } catch(ex) {
             log.innerHTML = 'Recognition error: ' + ex.message + '<br />' + log.innerHTML;

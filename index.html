@@ -9,7 +9,7 @@
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Web Speech API Demo</title>
+    <title>BCS Hackathon Project</title>
     <style>
       body
       {
@@ -39,7 +39,6 @@
         display: block;
         width: 100%;
         height: 5em;
-        overflow-y: scroll;
         border: 1px solid #333333;
         line-height: 1.3em;
       }
@@ -50,19 +49,27 @@
         display: inline-block;
         margin: 1em auto;
       }
+      img{
+    display: block;
+    margin: 0 auto;
+}
+	.buttons-wrapper {
+		display:none;
+	}
     </style>
   </head>
   <body>
+
     <h1>Web Speech API</h1>
     <h2>Transcription</h2>
+
+
+    <img src = "logo.png">
+    <h2>Input</h2>
+
     <textarea id="transcription" readonly="readonly"></textarea>
 
-    <span>Results:</span>
-    <label><input type="radio" name="recognition-type" value="final" checked="checked" /> Final only</label>
-    <label><input type="radio" name="recognition-type" value="interim" /> Interim</label>
 
-    <h3>Log</h3>
-    <div id="log"></div>
 
     <div class="buttons-wrapper">
       <button id="button-play-ws" class="button-demo">Play demo</button>
@@ -71,7 +78,8 @@
     </div>
     <span id="ws-unsupported" class="hidden">API not supported</span>
     
-    
+     <h3>Status Log</h3>
+    <div id="log"></div>
     <script type="text/javascript" src="date.js"></script>
    <script src="http://code.responsivevoice.org/responsivevoice.js">//gets the responsive voice api
    </script>
@@ -150,10 +158,7 @@
           log.innerHTML = 'Recognition error: ' + event.message + '<br />' + log.innerHTML;
         };
 
-        document.getElementById('button-play-ws').addEventListener('click', function() {
-          // Set if we need interim results
-          recognizer.interimResults = document.querySelector('input[name="recognition-type"][value="interim"]').checked;
-
+        setTimeout( function() {
           try {
             
             recognizer.start();
@@ -163,7 +168,7 @@
           } catch(ex) {
             log.innerHTML = 'Recognition error: ' + ex.message + '<br />' + log.innerHTML;
           }
-        });
+        }, 2000);
 
         document.getElementById('button-stop-ws').addEventListener('click', function() {
           recognizer.stop();
